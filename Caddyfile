@@ -1,0 +1,18 @@
+(hsts) {
+	header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+}
+
+:80 {
+   import hsts
+   handle_path /original/* {
+      root * /srv/
+		file_server
+   }
+   handle_path /admin/* {
+      reverse_proxy filebrowser:80
+   }
+   handle {
+	   header Cache-Control max-age=1209600
+      reverse_proxy imageproxy:80
+   }
+}

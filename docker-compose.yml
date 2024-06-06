@@ -1,0 +1,20 @@
+services:
+  filebrowser:
+    image: filebrowser/filebrowser
+    volumes:
+      - filebrowser_db:/database.db
+      - filebrowser_json:/.filebrowser.json
+      - images_dir:/srv
+  imageproxy:
+    image: ghcr.io/willnorris/imageproxy
+    command: imageproxy -cache memory --addr 0.0.0.0:80
+  caddy:
+    image: caddy:alpine
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    command: caddy run --config /etc/caddy/Caddyfile
