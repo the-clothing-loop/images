@@ -9,7 +9,7 @@
 		file_server
    }
    handle_path /admin/* {
-      reverse_proxy filebrowser:80
+      reverse_proxy filebrowser:80/admin/
    }
    handle {
 	   header Cache-Control max-age=1209600

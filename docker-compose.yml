@@ -3,7 +3,7 @@ services:
     image: filebrowser/filebrowser
     volumes:
       - images_dir:/srv
-    command: --port 80 --username=${IMAGE_USERNAME} --password=${IMAGE_PASSWORD}
+    command: --port 80 --username=${IMAGE_USERNAME} --password=${IMAGE_PASSWORD} --baseurl=/admin/
   imageproxy:
     image: ghcr.io/willnorris/imageproxy
     command: -cache memory:200:8h -addr 0.0.0.0:80 -allowHosts ${IMAGE_HOST} -baseURL https://${IMAGE_HOST}/original/
