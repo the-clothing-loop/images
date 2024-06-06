@@ -10,8 +10,17 @@ services:
     command: imageproxy -cache memory --addr 0.0.0.0:80
   caddy:
     build: .
+    volumes:
+      - images_dir:/srv
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost/ || exit 1
       interval: 30s
       timeout: 5s
       retries: 5
+volumes:
+  filebrowser_db:
+    external: true
+  filebrowser_json:
+    external: true
+  images_dir:
+    external: true
