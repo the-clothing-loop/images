@@ -3,12 +3,15 @@ services:
     image: filebrowser/filebrowser
     volumes:
       - images_dir:/srv
-    command: -p 80 -username=${IMAGE_USERNAME} -password=${IMAGE_PASSWORD}
+    command: --port 80 --username=${IMAGE_USERNAME} --password=${IMAGE_PASSWORD}
   imageproxy:
     image: ghcr.io/willnorris/imageproxy
     command: imageproxy -cache memory --addr 0.0.0.0:80
   caddy:
     build: .
+    depends_on:
+      - filebrowser
+      - imageproxy
     volumes:
       - images_dir:/srv
     healthcheck:
