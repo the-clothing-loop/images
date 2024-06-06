@@ -6,7 +6,7 @@ services:
     command: --port 80 --username=${IMAGE_USERNAME} --password=${IMAGE_PASSWORD}
   imageproxy:
     image: ghcr.io/willnorris/imageproxy
-    command: imageproxy -cache memory --addr 0.0.0.0:80
+    command: -cache memory:200:8h -addr 0.0.0.0:80 -allowHosts ${IMAGE_HOST} -baseURL https://${IMAGE_HOST}/original/
   caddy:
     build: .
     depends_on:
