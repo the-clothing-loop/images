@@ -3,7 +3,7 @@ services:
     image: filebrowser/filebrowser
     volumes:
       - images_dir:/srv
-    command: filebrowser -p 80 -username=${IMAGE_USERNAME} -password=${IMAGE_PASSWORD}
+    command: -p 80 -username=${IMAGE_USERNAME} -password=${IMAGE_PASSWORD}
   imageproxy:
     image: ghcr.io/willnorris/imageproxy
     command: imageproxy -cache memory --addr 0.0.0.0:80
