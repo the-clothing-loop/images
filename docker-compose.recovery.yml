@@ -1,0 +1,22 @@
+services:
+  recovery-image-source:
+    build:
+      context: .
+      dockerfile: Dockerfile.recovery
+    volumes:
+      - recovery_images:/srv:ro
+    ports:
+      - "127.0.0.1:8093:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+  recovery-imageproxy:
+    image: ghcr.io/willnorris/imageproxy@sha256:72cac7ca33a6a3ccd64257e96beda5d59f6d7359152054540dd5fba8316cad24
+    command: -cache memory:100:8h -addr 0.0.0.0:80 -allowHosts recovery-image-source -baseURL http://recovery-image-source/original/
+    mem_limit: 256m
+volumes:
+  recovery_images:
+    external: true
+    name: tcl-recovery-images

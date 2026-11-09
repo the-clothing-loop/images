@@ -1,0 +1,11 @@
+:80 {
+  header X-Robots-Tag "noindex, nofollow"
+  respond /healthz 200
+  handle_path /original/* {
+    root * /srv
+    file_server
+  }
+  handle {
+    reverse_proxy recovery-imageproxy:80
+  }
+}
